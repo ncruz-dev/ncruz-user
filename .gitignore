@@ -18,6 +18,9 @@ target/
 *.iws
 *.iml
 *.ipr
+*.ids
+*.orig
+classes/
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +34,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Maven ###
+/log/
+
+### Package Files ###
+*.jar
+*.war
+*.ear
+*.db
