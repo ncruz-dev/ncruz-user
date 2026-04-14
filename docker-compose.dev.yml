@@ -1,0 +1,49 @@
+# Dockerfile optimizado para desarrollo
+version: '3.8'
+
+services:
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: ncruz-user-dev
+    ports:
+      - "8087:8087"
+      - "5005:5005"  # Debug port
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      SPRING_H2_CONSOLE_ENABLED: "true"
+      JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    volumes:
+      - ~/.m2:/root/.m2:cached
+      - ./src:/app/src:cached
+      - ./target:/app/target:cached
+    networks:
+      - ncruz-dev-network
+    command: mvn spring-boot:run
+
+  h2-console:
+    image: h2database/h2-console
+    container_name: ncruz-h2-console
+    ports:
+      - "8088:8082"
+    environment:
+      H2_DRIVER: org.h2.Driver
+      H2_URL: jdbc:h2:mem:testdb
+      H2_USER: sa
+      H2_PASSWORD: ""
+    networks:
+      - ncruz-dev-network
+    depends_on:
+      - app-dev
+
+networks:
+  ncruz-dev-network:
+    driver: bridge
+
