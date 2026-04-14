@@ -16,5 +16,4 @@ spring:
     h2:
       console:
         enabled: true
-        path: /h2-custom-console
 
