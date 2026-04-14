@@ -46,6 +46,21 @@ http://localhost:8080/swagger-ui.html
 ```
 http://localhost:8080/h2-console
 ```
+# User CRUD API
+
+Spring Boot + OpenAPI (Contract First) + H2
+
+## 🚀 Run
+mvn spring-boot:run
+
+## 📌 Endpoints
+- GET /users
+- POST /users
+- PUT /users/{id}
+- DELETE /users/{id}
+
+## 📄 Swagger
+http://localhost:8080/swagger-ui.html
 
 ---
 

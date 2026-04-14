@@ -112,6 +112,7 @@
             </plugin>
 
         </plugins>
+        <finalName>api-ncruzdev-user</finalName>
     </build>
 
 </project>
