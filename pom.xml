@@ -62,11 +62,6 @@
             <version>2.5.0</version>
         </dependency>
         <!-- SOLO si usas nullable en OpenAPI -->
-<!--        <dependency> &lt;!&ndash;no existe en el repositorio central, se genera con el plugin de OpenAPI &ndash;&gt;-->
-<!--            <groupId>org.openapitools</groupId>-->
-<!--            <artifactId>jackson-datatype-jackson-nullable</artifactId>-->
-<!--            <version>0.2.6</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
@@ -100,10 +95,16 @@
                             <apiPackage>com.ncruz.api</apiPackage>
                             <modelPackage>com.ncruz.model</modelPackage>
                             <configOptions>
+                            <!-- evita el response el error 501-->
                                 <interfaceOnly>true</interfaceOnly>
+<!--                                <interfaceOnly>false</interfaceOnly>-->
+<!--                                <delegatePattern>true</delegatePattern>-->
+                                <skipDefaultInterface>true</skipDefaultInterface> <!-- 🔥 CLAVE -->
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <!-- acepta el nullable en OpenAPI -->
                                 <useNullable>true</useNullable>
                                 <openApiNullable>true</openApiNullable>
+                                <generateApiTests>false</generateApiTests>
                             </configOptions>
                         </configuration>
                     </execution>

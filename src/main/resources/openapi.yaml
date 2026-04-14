@@ -3,9 +3,14 @@ info:
   title: User API
   version: 1.0.0
 
+servers:
+  - url: http://localhost:8087/api
+
 paths:
   /users:
     get:
+      tags:
+        - Users
       summary: List all users
       operationId: listUsers
       responses:
@@ -18,19 +23,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/BadRequest'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalError'
 
     post:
+      tags:
+        - Users
       summary: Create user
       operationId: createUser
       requestBody:
@@ -40,27 +39,21 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        '200':  # 🔥 mejor usar 200 en generator para evitar problemas
+        '200':
           description: User created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/BadRequest'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalError'
 
   /users/{id}:
     put:
+      tags:
+        - Users
       summary: Update user
       operationId: updateUser
       parameters:
@@ -83,19 +76,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/BadRequest'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalError'
 
     delete:
+      tags:
+        - Users
       summary: Delete user
       operationId: deleteUser
       parameters:
@@ -105,7 +92,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':   # 🔥 evita 204 para mejor compatibilidad con generator
+        '200':
           description: User deleted
           content:
             application/json:
@@ -113,22 +100,18 @@ paths:
                 type: string
                 example: "User deleted successfully"
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/BadRequest'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalError'
 
 components:
   schemas:
     User:
       type: object
+      required:
+        - name
+        - email
+      additionalProperties: false
       properties:
         id:
           type: integer
@@ -139,19 +122,32 @@ components:
 
     ErrorResponse:
       type: object
+      required:
+        - status
+        - message
       properties:
         timestamp:
           type: string
-          example: "2026-01-01T10:00:00"
         status:
           type: integer
-          example: 400
         error:
           type: string
-          example: "Bad Request"
         message:
           type: string
-          example: "Invalid input"
         path:
           type: string
-          example: "/users"
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
