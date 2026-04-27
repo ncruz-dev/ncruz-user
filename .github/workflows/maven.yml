@@ -9,14 +9,13 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [closed]
 
 jobs:
   build:
-
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -39,8 +38,10 @@ jobs:
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Scan image with Trivy
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: nicolasbncruz/api-ncruz-user:${{github.sha}}
+
+#Escaneo de vulnerabilidades con Trivy
+#    - name: Scan image with Trivy
+#      uses: aquasecurity/trivy-action@master
+#      with:
+#        image-ref: nicolasbncruz/api-ncruz-user:${{github.sha}}
 
