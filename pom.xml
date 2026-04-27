@@ -112,7 +112,7 @@
             </plugin>
 
         </plugins>
-        <finalName>api-ncruzdev-user</finalName>
+        <finalName>api-ncruz-user</finalName>
     </build>
 
 </project>
