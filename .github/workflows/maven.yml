@@ -29,19 +29,23 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Set short SHA
+      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
     - name: Build & push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: nicolasbncruz/api-ncruz-user
-        tags: ${{github.sha}}
+        tags: |
+          docker.io/nicolasbncruz/api-ncruz-user:${{ github.run_number }}-${{ env.SHORT_SHA }}
+          docker.io/nicolasbncruz/api-ncruz-user:latest
         registry: docker.io
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
 #Escaneo de vulnerabilidades con Trivy
-#    - name: Scan image with Trivy
-#      uses: aquasecurity/trivy-action@master
-#      with:
-#        image-ref: nicolasbncruz/api-ncruz-user:${{github.sha}}
+    - name: Scan image with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: nicolasbncruz/api-ncruz-user:${{ github.run_number }}-${{ env.SHORT_SHA }}
 
