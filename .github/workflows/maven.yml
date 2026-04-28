@@ -33,11 +33,13 @@ jobs:
       run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
     - name: Build & push Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v6
+      uses: docker/build-push-action@v5
       with:
+        context: .
+        push: true
         tags: |
-          docker.io/nicolasbncruz/api-ncruz-user:${{ github.run_number }}-${{ env.SHORT_SHA }}
-          docker.io/nicolasbncruz/api-ncruz-user:latest
+          docker.io/${{ secrets.DOCKER_USERNAME }}/api-ncruz-user:${{ github.run_number }}-${{ env.SHORT_SHA }}
+          docker.io/${{ secrets.DOCKER_USERNAME }}/api-ncruz-user:latest
         registry: docker.io
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
