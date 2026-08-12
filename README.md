@@ -75,6 +75,10 @@ Este proyecto utiliza el enfoque **Contract First**, lo que significa:
     * Modelos (`User`)
 * Finalmente, el desarrollador implementa esa interfaz en el controlador
 
+Nota: Agregar fuentes generadas a la ruta de compilación. Aunque el UsersApi.java archivo UsersApi.tsse haya generado correctamente dentro de su target/generated-sources directorio build/generated, es posible que su IDE no reconozca esa carpeta como una raíz de origen. 
+Para IntelliJ IDEA:Haga clic con el botón derecho en la carpeta que contiene el código generado (por ejemplo, target/generated-sources/openapi/src/main/java).
+Seleccione Marcar directorio como > Raíz de fuentes generadas.
+
 ### 🎯 Beneficios
 
 * Consistencia entre contrato y código
